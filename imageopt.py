@@ -2,7 +2,10 @@
 import argparse
 import re
 import os
-import subprocess
+try:
+    from commands import getstatusoutput
+except ImportError:
+    from subprocess import getstatusoutput
 
 JPG_OPT = 'jpegoptim'
 PNG_OPT = 'optipng'
@@ -62,7 +65,7 @@ class ImageOptApp(object):
         else:
             cmd = '%s "%s"' % (JPG_OPT, fn)
 
-        status, output = subprocess.getstatusoutput(cmd)
+        status, output = getstatusoutput(cmd)
         if status != 0:
             raise Exception('ERROR: Failed to optimise %s - %s' % (fn, output))
 
